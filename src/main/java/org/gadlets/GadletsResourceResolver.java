@@ -16,7 +16,7 @@ public class GadletsResourceResolver extends ResourceResolver {
 	@Override
 	public URL resolveUrl(String path) {
 		System.out.println(path);
-		if(path.contains("home")) {
+		if(path.contains("figure_that_out")) {
 			try {
 				return new URL("file:///tmp/gt.xhtml");
 			} catch (MalformedURLException e) {
