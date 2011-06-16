@@ -49,6 +49,12 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.gadlets</groupId>
+			<artifactId>gadlets-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
 		<!-- Common to JEE and Servlet containers -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
