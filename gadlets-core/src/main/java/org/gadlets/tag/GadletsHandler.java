@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.el.VariableMapper;
 import javax.faces.component.UIComponent;
 import javax.faces.view.facelets.FaceletContext;
-import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributeException;
 import javax.faces.view.facelets.TagConfig;
 
@@ -35,7 +34,7 @@ public class GadletsHandler extends TagHandlerImpl {
 	 */
 	public void apply(FaceletContext ctx, UIComponent parent)
 			throws IOException {
-		String path = "file:///tmp/gt.xhtml";
+		String path = GadletsGenerator.generateGadletInclude();
 		if (path == null || path.length() == 0) {
 			return;
 		}
