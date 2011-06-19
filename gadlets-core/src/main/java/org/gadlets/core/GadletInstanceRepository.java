@@ -19,4 +19,5 @@ public class GadletInstanceRepository {
 	static public List<GadletInstance> getInstances() {
 		return instances;
 	}
+	
 }
