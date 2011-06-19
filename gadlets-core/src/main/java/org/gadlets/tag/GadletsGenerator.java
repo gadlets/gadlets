@@ -23,7 +23,7 @@ public class GadletsGenerator {
 		
 		List<GadletInstance> instances = GadletInstanceRepository.getInstances();
 		for (GadletInstance gadletInstance : instances) {
-			fw.write("<ui:include src=\""+ gadletInstance.getPath() +" \"/>");			
+			fw.write("<ui:include src=\""+ gadletInstance.getGadletDefinition().getPath() +" \"/>");			
 		}
 		
 		fw.write("<br/> GEN END");

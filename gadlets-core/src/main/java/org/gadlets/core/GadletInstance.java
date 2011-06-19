@@ -2,14 +2,14 @@ package org.gadlets.core;
 
 public class GadletInstance {
 
-	private String path;
+	private GadletDefinition gadletDefinition;
 
-	public GadletInstance(String path) {
-		this.path = path;
+	public GadletInstance(GadletDefinition gadletDefinition) {
+		this.gadletDefinition = gadletDefinition;
 	}
 
-	public String getPath() {
-		return path;
+	public GadletDefinition getGadletDefinition() {
+		return gadletDefinition;
 	}
-	
+
 }
