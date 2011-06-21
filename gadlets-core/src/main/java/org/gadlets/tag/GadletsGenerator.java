@@ -8,10 +8,16 @@ import java.util.Random;
 
 import org.gadlets.core.GadletInstance;
 import org.gadlets.core.GadletInstanceRepository;
+import org.gadlets.core.GadletParameter;
 
 public class GadletsGenerator {
 
 	public static String generateGadletInclude() throws IOException {
+		
+		String template = GadletsGenerator.class.getClassLoader()
+						.getResource("org/gadlets/tag/decorate.xhtml")
+						.toString();
+
 		
 		File file = File.createTempFile("gadlets_" + new Random().nextInt(), ".xhtml");
 		FileWriter fw = new FileWriter(file);
@@ -23,7 +29,18 @@ public class GadletsGenerator {
 		
 		List<GadletInstance> instances = GadletInstanceRepository.getInstances();
 		for (GadletInstance gadletInstance : instances) {
-			fw.write("<ui:include src=\""+ gadletInstance.getGadletDefinition().getPath() +" \"/>");			
+			fw.write("<ui:decorate template=\""+ template +"\">");			
+			fw.write("  <ui:define name=\"gadlet\">");
+			fw.write("    <ui:include src=\""+ gadletInstance.getGadletDefinition().getPath() +"\">");
+			
+			List<GadletParameter> parameters = gadletInstance.getParameters();
+			for (GadletParameter gadletParameter : parameters) {
+				fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + gadletParameter.getValue() + "\"/>");				
+			}
+
+			fw.write("    </ui:include>");
+			fw.write("  </ui:define>");
+			fw.write("</ui:decorate>");			
 		}
 		
 		fw.write("<br/> GEN END");

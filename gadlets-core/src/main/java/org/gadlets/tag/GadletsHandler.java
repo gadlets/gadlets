@@ -10,8 +10,10 @@ import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagAttributeException;
 import javax.faces.view.facelets.TagConfig;
 
+import com.sun.faces.facelets.FaceletContextImplBase;
 import com.sun.faces.facelets.el.VariableMapperWrapper;
 import com.sun.faces.facelets.tag.TagHandlerImpl;
+import com.sun.faces.facelets.tag.ui.DefineHandler;
 import com.sun.faces.util.FacesLogger;
 
 public class GadletsHandler extends TagHandlerImpl {
@@ -41,7 +43,6 @@ public class GadletsHandler extends TagHandlerImpl {
 		VariableMapper orig = ctx.getVariableMapper();
 		ctx.setVariableMapper(new VariableMapperWrapper(orig));
 		try {
-			this.nextHandler.apply(ctx, null);
 			ctx.includeFacelet(parent, path);
 		} catch (IOException e) {
 			if (log.isLoggable(Level.FINE)) {

@@ -21,7 +21,21 @@ public class GadletInstanceRepository {
 						GadletsGenerator.class.getClassLoader()
 								.getResource("org/gadlets/core/test2.xhtml")
 								.toString())));
-	}
+		
+		GadletInstance twitter1 = new GadletInstance(new GadletDefinition(
+				GadletsGenerator.class.getClassLoader()
+						.getResource("org/gadlets/core/twitter.xhtml")
+						.toString()));
+		twitter1.addParameter("user", "twitter");
+		instances.add(twitter1);
+
+		GadletInstance twitter2 = new GadletInstance(new GadletDefinition(
+				GadletsGenerator.class.getClassLoader()
+						.getResource("org/gadlets/core/twitter.xhtml")
+						.toString()));
+		twitter2.addParameter("user", "NASA");
+		instances.add(twitter2);
+}
 
 	static public List<GadletInstance> getInstances() {
 		return instances;
