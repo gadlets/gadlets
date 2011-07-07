@@ -11,51 +11,53 @@
 	<modules>
 		<module>gadlets-core</module>
 		<module>gadlets-test</module>
+		<module>gadlets-jsf12</module>
+		<module>gadlets-jsf20</module>
 	</modules>
 
-    <repositories>
-        <repository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Maven Repository Group</name>
-          <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
-      </repositories>
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 
-    <properties>
-		<!-- Explicitly declaring the source encoding eliminates the following
-			message: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
+	<properties>
+		<!-- Explicitly declaring the source encoding eliminates the following 
+			message: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
 			resources, i.e. build is platform dependent! -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- The version of Weld extensions in use -->
 		<weld.extensions.version>1.0.0-CR2</weld.extensions.version>
 	</properties>
 
-    <dependencyManagement>
+	<dependencyManagement>
 		<dependencies>
 			<!-- Import scope will provide versions for dependencies below. -->
-			<!--dependency>
+			<dependency>
 				<groupId>org.jboss.weld</groupId>
 				<artifactId>weld-extensions-bom</artifactId>
 				<version>${weld.extensions.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency-->
-            <dependency>
-                        <groupId>org.jboss.weld</groupId>
-                        <artifactId>weld-core-bom</artifactId>
-                        <version>1.1.0.Final</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-core-bom</artifactId>
+				<version>1.1.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -66,8 +68,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>
