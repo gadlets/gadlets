@@ -16,13 +16,16 @@
 
 
 
-	<!--repositories>
+	<repositories>
+		<!-- Several key Java EE APIs and RIs are missing from the Maven Central 
+			Repository -->
+		<!-- The goal is to eventually eliminate the reliance on the JBoss repository -->
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
 			<url>http://repository.jboss.org/maven2</url>
 		</repository>
-	</repositories-->
+	</repositories>
 
 
 
@@ -30,7 +33,7 @@
 
 		<dependency>
 			<groupId>org.gadlets</groupId>
-			<artifactId>gadlets-core</artifactId>
+			<artifactId>gadlets-jsf20</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
@@ -61,8 +64,9 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>5.12.1</version>
+			<version>5.10</version>
 			<scope>test</scope>
+			<classifier>jdk15</classifier>
 		</dependency>
 
 		<!-- Jetty/Tomcat-specific scopes and artifacts -->
@@ -71,7 +75,7 @@
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<scope>runtime</scope>
+			<!--scope>runtime</scope-->
 		</dependency>
 
 		<dependency>
@@ -80,15 +84,15 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!--dependency>
+		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>el-impl</artifactId>
 			<scope>runtime</scope>
-			<exclusions-->
+			<exclusions>
 				<!-- <exclusion> <groupId>javax.el</groupId> <artifactId>el-api</artifactId> 
 					</exclusion> -->
-			<!--/exclusions>
-		</dependency-->
+			</exclusions>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.el</groupId>
