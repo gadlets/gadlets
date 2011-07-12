@@ -38,7 +38,7 @@ public class GadletsScannerTest {
         }
 
         WebArchive someWar = ShrinkWrap.create(WebArchive.class, "some.war")
-                .setWebXML("web.xml")
+                //.setWebXML("web.xml")
                 .addAsLibrary(scannerJar)
                 .addAsLibrary(gadletsJar);
         System.out.println(someWar.toString(true));
