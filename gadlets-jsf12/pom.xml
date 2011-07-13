@@ -16,6 +16,13 @@
 			<artifactId>gadlets-core</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.gadlets</groupId>
+			<artifactId>gadlets-facelets-common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.sun.facelets</groupId>
 			<artifactId>jsf-facelets</artifactId>

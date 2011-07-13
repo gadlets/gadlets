@@ -1,6 +1,9 @@
 package org.gadlets.scanner;
 
-import org.gadlets.tag.GadletsGenerator;
+import java.net.URL;
+import java.util.Set;
+
+import org.gadlets.core.GadletInstanceRepository;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -8,9 +11,6 @@ import org.jboss.shrinkwrap.api.classloader.ShrinkWrapClassLoader;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
-
-import java.net.URL;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +30,7 @@ public class GadletsScannerTest {
         System.out.println(scannerJar.toString(true));
 
         JavaArchive gadletsJar = ShrinkWrap.create(JavaArchive.class, "gadlets.jar")
-                .addClass(GadletsGenerator.class)
+                .addClass(GadletInstanceRepository.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "gadlets.xml");
         System.out.println(gadletsJar.toString(true));
         for(ArchivePath ap : gadletsJar.getContent().keySet()){

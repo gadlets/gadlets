@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>gadlets-core</module>
+		<module>gadlets-facelets-common</module>
 		<module>gadlets-jsf12</module>
 		<module>gadlets-jsf20</module>
 		<module>gadlets-seam2</module>
