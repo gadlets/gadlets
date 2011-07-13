@@ -10,9 +10,10 @@
 
 	<modules>
 		<module>gadlets-core</module>
-		<module>gadlets-test</module>
 		<module>gadlets-jsf12</module>
 		<module>gadlets-jsf20</module>
+		<module>gadlets-seam2</module>
+		<module>gadlets-test</module>
 	</modules>
 
 	<repositories>
