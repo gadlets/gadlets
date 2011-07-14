@@ -38,7 +38,7 @@ public class GadletScanner {
             }
             return urls;
         } catch (Exception e) {
-            throw new RuntimeException("Unable to scan for gadlets.xml");
+            throw new RuntimeException("Unable to scan for gadlets.xml", e);
         }
 
     }
