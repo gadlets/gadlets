@@ -4,4 +4,7 @@
    xsi:schemaLocation="
       http://gadlets.org/xml/ns/gadlets
       http://gadlets.org/xml/ns/gadlets/gadlets_1_0.xsd">
+     <gadlet name="test">
+     
+     </gadlet> 
 </gadlets>

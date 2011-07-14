@@ -20,6 +20,23 @@
 		<version.arquillian>1.0.0.Alpha5</version.arquillian>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<!-- Common to JEE and Servlet containers -->
 		<dependency>
