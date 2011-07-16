@@ -19,7 +19,7 @@ public class GadletInstanceRepository {
 						GadletInstanceRepository.class.getClassLoader()
 								.getResource("org/gadlets/core/test2.xhtml")
 								.toString())));
-		
+
 		GadletInstance twitter1 = new GadletInstance(new GadletDefinition(
 				GadletInstanceRepository.class.getClassLoader()
 						.getResource("org/gadlets/core/twitter.xhtml")
@@ -33,7 +33,11 @@ public class GadletInstanceRepository {
 						.toString()));
 		twitter2.addParameter("user", "NASA");
 		instances.add(twitter2);
-}
+	}
+
+	static public void addGadlet(GadletInstance gadletInstance) {
+		instances.add(gadletInstance);
+	}
 
 	static public List<GadletInstance> getInstances() {
 		return instances;
