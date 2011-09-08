@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gadlets xmlns="http://gadlets.org/xml/ns/gadlets" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+      http://gadlets.org/xml/ns/gadlets
+      http://gadlets.org/xml/ns/gadlets/gadlets_1_0.xsd">
+	<gadlet name="twitter-lola">
+		<resource>twitter-lola.xhtml</resource>
+	</gadlet>
+	<gadlet name="twitter-twitter">
+		<resource>twitter-twitter.xhtml</resource>
+	</gadlet>
+</gadlets>
