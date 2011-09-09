@@ -1,6 +1,7 @@
 package org.gadlets.core;
 
 public class GadletParameter {
+	
 	private String name;
 
 	private String value;

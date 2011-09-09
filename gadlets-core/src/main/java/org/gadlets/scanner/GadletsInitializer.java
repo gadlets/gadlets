@@ -41,8 +41,7 @@ public class GadletsInitializer {
 					try {
 						resourceURL.getContent();
 						GadletInstanceRepository.addGadlet(new GadletInstance(
-								new GadletDefinition(resourceURL
-										.toExternalForm())));
+								new GadletDefinition(gadlet.getName(), resourceURL.toExternalForm())));
 					} catch (Exception e) {
 						logger.error("Failed to find Gadlet resource: " + resourceURL, e);
 					}

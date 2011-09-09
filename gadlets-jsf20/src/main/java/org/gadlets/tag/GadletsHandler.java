@@ -7,16 +7,15 @@ import java.util.logging.Logger;
 import javax.el.VariableMapper;
 import javax.faces.component.UIComponent;
 import javax.faces.view.facelets.FaceletContext;
+import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributeException;
 import javax.faces.view.facelets.TagConfig;
 
-import com.sun.faces.facelets.FaceletContextImplBase;
 import com.sun.faces.facelets.el.VariableMapperWrapper;
 import com.sun.faces.facelets.tag.TagHandlerImpl;
-import com.sun.faces.facelets.tag.ui.DefineHandler;
 import com.sun.faces.util.FacesLogger;
 
-public class GadletsHandler extends TagHandlerImpl {
+public class GadletsHandler extends TagHandlerImpl implements IGadletsHandler {
 
 	private static final Logger log = FacesLogger.FACELETS_INCLUDE.getLogger();
 
@@ -25,6 +24,15 @@ public class GadletsHandler extends TagHandlerImpl {
 	 */
 	public GadletsHandler(TagConfig config) {
 		super(config);
+	}
+	
+	@Override
+	public String getAttributeValue(String localName) {
+		TagAttribute attribute = getAttribute(localName);
+		if(attribute != null) {
+			return attribute.getValue();
+		}
+		return null;
 	}
 
 	/*
@@ -36,7 +44,7 @@ public class GadletsHandler extends TagHandlerImpl {
 	 */
 	public void apply(FaceletContext ctx, UIComponent parent)
 			throws IOException {
-		String path = GadletsGenerator.generateGadletInclude();
+		String path = GadletsGenerator.generateGadletInclude(this);
 		if (path == null || path.length() == 0) {
 			return;
 		}

@@ -1,26 +1,32 @@
 package org.gadlets.tag;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.el.VariableMapper;
 import javax.faces.component.UIComponent;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.el.VariableMapperWrapper;
+import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.TagAttributeException;
 import com.sun.facelets.tag.TagConfig;
 import com.sun.facelets.tag.TagHandler;
 
-public class GadletsHandler extends TagHandler {
-
+public class GadletsHandler extends TagHandler implements IGadletsHandler {
 
 	public GadletsHandler(TagConfig config) {
 		super(config);
-
 	}
-
+	
+	@Override
+	public String getAttributeValue(String localName) {
+		TagAttribute attribute = getAttribute(localName);
+		if(attribute != null) {
+			return attribute.getValue();
+		}
+		return null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,7 +36,7 @@ public class GadletsHandler extends TagHandler {
 	 */
 	public void apply(FaceletContext ctx, UIComponent parent)
 			throws IOException {
-		String path = GadletsGenerator.generateGadletInclude();
+		String path = GadletsGenerator.generateGadletInclude(this);
 		if (path == null || path.length() == 0) {
 			return;
 		}

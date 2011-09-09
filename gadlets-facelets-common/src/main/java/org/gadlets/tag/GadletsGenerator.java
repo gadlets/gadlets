@@ -3,16 +3,28 @@ package org.gadlets.tag;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 import org.gadlets.core.GadletInstance;
 import org.gadlets.core.GadletInstanceRepository;
 import org.gadlets.core.GadletParameter;
+import org.gadlets.match.GadletsMatcher;
+import org.gadlets.match.MatchAllMatcher;
+import org.gadlets.match.NameMatcher;
 
 public class GadletsGenerator {
 
-	public static String generateGadletInclude() throws IOException {
+	public static String generateGadletInclude(IGadletsHandler gadletsHandler) throws IOException {
+		String name = gadletsHandler.getAttributeValue("name");
+		if(name != null) {
+			return generateGadletInclude(new NameMatcher(name));
+		}
+		return generateGadletInclude(new MatchAllMatcher()); 
+	}
+	
+	public static String generateGadletInclude(GadletsMatcher gadletsMatcher) throws IOException {
 		
 		String template = GadletsGenerator.class.getClassLoader()
 						.getResource("org/gadlets/tag/decorate.xhtml")
@@ -26,7 +38,7 @@ public class GadletsGenerator {
 		
 		fw.write("GEN START: " + file.getAbsolutePath() + "<br/>");
 		
-		List<GadletInstance> instances = GadletInstanceRepository.getInstances();
+		Collection<GadletInstance> instances = gadletsMatcher.match(GadletInstanceRepository.getInstances());
 		for (GadletInstance gadletInstance : instances) {
 			fw.write("<ui:decorate template=\""+ template +"\">");			
 			fw.write("  <ui:define name=\"gadlet\">");
