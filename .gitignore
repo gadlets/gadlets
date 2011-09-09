@@ -1,7 +1,16 @@
 #
-# eclipse stuff
+# eclipse
 #
+.project
 */.project
+.classpath
 */.classpath
-*/.settings
-*/target
+*/.settings/
+/.metadata/
+*/bin/
+*/test-files/
+*/test-output/
+#
+# maven
+#
+*/target/
