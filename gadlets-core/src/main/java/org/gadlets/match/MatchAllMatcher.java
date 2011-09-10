@@ -2,13 +2,14 @@ package org.gadlets.match;
 
 import java.util.Collection;
 
-import org.gadlets.core.GadletInstance;
+import org.gadlets.core.GadletDefinition;
 
 public class MatchAllMatcher implements GadletsMatcher {
 
+
 	@Override
-	public Collection<GadletInstance> match(Collection<GadletInstance> gadletInstances) {
-		return gadletInstances;
+	public Collection<GadletDefinition> match(Collection<GadletDefinition> gadletDefinitions) {
+		return gadletDefinitions;
 	}
 	
 

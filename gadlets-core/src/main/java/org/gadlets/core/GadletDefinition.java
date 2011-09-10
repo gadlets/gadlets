@@ -1,7 +1,10 @@
 package org.gadlets.core;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class GadletDefinition {
 
@@ -9,16 +12,17 @@ public class GadletDefinition {
 	
 	private String path;
 
-	private List<GadletParameter> parameters;
+	private Map<String, GadletParameter> name2parameter;
 
 	public GadletDefinition(String name, String path) {
 		this.path = path;
 		this.name = name; 
-		this.parameters = new LinkedList<GadletParameter>();
+		this.name2parameter = new HashMap<String, GadletParameter>();
 	}
 
-	public void addParameter(String name, String value) {
-		parameters.add(new GadletParameter(name, value));
+	public void putParameter(String name, String value, boolean required) {
+		GadletParameter gadletParameter = new GadletParameter(name, value, required);
+		name2parameter.put(name, gadletParameter);
 	}
 
 	public String getName() {
@@ -29,8 +33,18 @@ public class GadletDefinition {
 		return path;
 	}
 
-	public List<GadletParameter> getParameters() {
-		return parameters;
+	public Collection<GadletParameter> getParameters() {
+		return name2parameter.values();
+	}
+	
+	public boolean isAbstract() {
+		Collection<GadletParameter> parameters = getParameters();
+		for (GadletParameter gadletParameter : parameters) {
+			if(gadletParameter.isRequired() && gadletParameter.getValue() == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

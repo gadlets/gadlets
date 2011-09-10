@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
-import org.gadlets.core.GadletInstance;
+import org.gadlets.core.GadletDefinition;
 import org.gadlets.core.GadletInstanceRepository;
 import org.gadlets.core.GadletParameter;
 import org.gadlets.match.GadletsMatcher;
@@ -38,13 +37,13 @@ public class GadletsGenerator {
 		
 		fw.write("GEN START: " + file.getAbsolutePath() + "<br/>");
 		
-		Collection<GadletInstance> instances = gadletsMatcher.match(GadletInstanceRepository.getInstances());
-		for (GadletInstance gadletInstance : instances) {
+		Collection<GadletDefinition> instances = gadletsMatcher.match(GadletInstanceRepository.getInstances());
+		for (GadletDefinition gadletDefinition : instances) {
 			fw.write("<ui:decorate template=\""+ template +"\">");			
 			fw.write("  <ui:define name=\"gadlet\">");
-			fw.write("    <ui:include src=\""+ gadletInstance.getGadletDefinition().getPath() +"\">");
+			fw.write("    <ui:include src=\""+ gadletDefinition.getPath() +"\">");
 			
-			List<GadletParameter> parameters = gadletInstance.getParameters();
+			Collection<GadletParameter> parameters = gadletDefinition.getParameters();
 			for (GadletParameter gadletParameter : parameters) {
 				fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + gadletParameter.getValue() + "\"/>");				
 			}

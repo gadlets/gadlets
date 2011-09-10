@@ -1,7 +1,8 @@
 package org.gadlets.scanner;
 
-import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.gadlets.core.GadletDefinition;
-import org.gadlets.core.GadletInstance;
 import org.gadlets.core.GadletInstanceRepository;
+import org.gadlets.core.GadletParameter;
 import org.gadlets.xml.ns.gadlets.Gadlets;
 import org.gadlets.xml.ns.gadlets.Gadlets.Gadlet;
+import org.gadlets.xml.ns.gadlets.Gadlets.Gadlet.Argument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +54,9 @@ public class GadletsInitializer {
 		//
 		logger.info("Resolving Gadlet mappings.");
 		Map<String, GadletDefinition> resolved = new HashMap<String, GadletDefinition>();
-		Set<Entry<String,Gadlet>> entrySet = unresolved.entrySet();
-		for (Entry<String, Gadlet> entry : entrySet) {
+		ArrayList<Entry<String, Gadlet>> unresolvedList = new ArrayList<Entry<String, Gadlet>>(unresolved.entrySet());
+		while(unresolvedList.size() > 0) {
+			Entry<String, Gadlet> entry = unresolvedList.remove(0);
 			URL url = urls.get(entry.getKey());
 			Gadlet gadlet = entry.getValue();
 			String resource = gadlet.getResource();
@@ -61,19 +64,45 @@ public class GadletsInitializer {
 				URL resourceURL = URLHelper.getResourceURL(url, resource);
 				try {
 					resourceURL.getContent();
-					resolved.put(gadlet.getName(), new GadletDefinition(gadlet.getName(), resourceURL.toExternalForm()));
+					GadletDefinition gadletDefinition = new GadletDefinition(gadlet.getName(), resourceURL.toExternalForm());
+					List<Argument> argument = gadlet.getArgument();
+					for (Argument argument2 : argument) {
+						gadletDefinition.putParameter(argument2.getName(), argument2.getValue(), argument2.isRequired());
+					}
+					resolved.put(gadlet.getName(), gadletDefinition);
 				} catch (Exception e) {
 					logger.error("Failed to find Gadlet resource: " + resourceURL, e);
 				}
 			} else {
 				String extendsGadlet = gadlet.getExtends();
-				// TODO: handle extensions ... need to rewrite loop
+				GadletDefinition resolvedGadletDefinition = resolved.get(extendsGadlet);
+				Gadlet unresolvedGadletDefinition = unresolved.get(extendsGadlet);
+				if(resolvedGadletDefinition != null) {
+					// Found defined gadlet to extends - we're all set
+					GadletDefinition extendedGadletDefinition = new GadletDefinition(gadlet.getName(), resolvedGadletDefinition.getPath());
+					Collection<GadletParameter> parameters = resolvedGadletDefinition.getParameters();
+					for (GadletParameter gadletParameter : parameters) {
+						extendedGadletDefinition.putParameter(gadletParameter.getName(), gadletParameter.getValue(), gadletParameter.isRequired());
+					}
+					List<Argument> arguments = gadlet.getArgument();
+					for (Argument argument : arguments) {
+						extendedGadletDefinition.putParameter(argument.getName(), argument.getValue(), argument.isRequired());
+					}
+					resolved.put(gadlet.getName(), extendedGadletDefinition);
+				} else if(unresolvedGadletDefinition != null) {
+					// Right - we'll try later when it is resolved
+					unresolvedList.add(entry);
+				} else {
+					// Extension is invalid - nothing to extend
+					logger.error("Failed to find Gadlet for extension: " + gadlet.getName() + " <- " + extendsGadlet);
+				}
 			}
 		}
 		logger.info("Register resolved Gadlets.");
 		Set<Entry<String,GadletDefinition>> entrySet2 = resolved.entrySet();
 		for (Entry<String, GadletDefinition> entry : entrySet2) {
-			GadletInstanceRepository.addGadlet(new GadletInstance(entry.getValue()));
+			logger.info("Register: " + entry.getKey());
+			GadletInstanceRepository.addGadlet(entry.getValue());
 		}
 		logger.info("Completed Gadlets scanning.");
 	}

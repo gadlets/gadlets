@@ -5,11 +5,13 @@ public class GadletParameter {
 	private String name;
 
 	private String value;
+	
+	private boolean required;
 
-	public GadletParameter(String name, String value) {
-		super();
+	public GadletParameter(String name, String value, boolean required) {
 		this.name = name;
 		this.value = value;
+		this.required = required;
 	}
 
 	public String getName() {
@@ -18,6 +20,10 @@ public class GadletParameter {
 
 	public String getValue() {
 		return value;
+	}
+	
+	public boolean isRequired() {
+		return required;
 	}
 
 }

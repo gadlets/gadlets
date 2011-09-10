@@ -1,21 +1,28 @@
 package org.gadlets.core;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class GadletInstanceRepository {
 
-	static private List<GadletInstance> instances;
+	static private List<GadletDefinition> definitions;
 
 	static {
-		instances = new LinkedList<GadletInstance>();
+		definitions = new LinkedList<GadletDefinition>();
 	}
 
-	static public void addGadlet(GadletInstance gadletInstance) {
-		instances.add(gadletInstance);
+	static public void addGadlet(GadletDefinition gadletDefinition) {
+		definitions.add(gadletDefinition);
 	}
 
-	static public List<GadletInstance> getInstances() {
+	static public List<GadletDefinition> getInstances() {
+		ArrayList<GadletDefinition> instances = new ArrayList<GadletDefinition>(definitions.size());
+		for (GadletDefinition gadletDefinition : definitions) {
+			if(!gadletDefinition.isAbstract()) {
+				instances.add(gadletDefinition);
+			}
+		}
 		return instances;
 	}
 

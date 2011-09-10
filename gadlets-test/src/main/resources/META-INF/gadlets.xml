@@ -3,10 +3,15 @@
 	xsi:schemaLocation="
       http://gadlets.org/xml/ns/gadlets
       http://gadlets.org/xml/ns/gadlets/gadlets_1_0.xsd">
+	<gadlet name="twitter">
+		<resource>twitter.xhtml</resource>
+		<argument name="user" required="true" />
+	</gadlet>
 	<gadlet name="twitter-lola">
 		<resource>twitter-lola.xhtml</resource>
 	</gadlet>
 	<gadlet name="twitter-twitter">
-		<resource>twitter-twitter.xhtml</resource>
+		<extends>twitter</extends>
+		<argument name="user" value="twitter" />
 	</gadlet>
 </gadlets>

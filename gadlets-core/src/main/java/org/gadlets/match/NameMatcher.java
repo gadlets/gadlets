@@ -3,7 +3,7 @@ package org.gadlets.match;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.gadlets.core.GadletInstance;
+import org.gadlets.core.GadletDefinition;
 
 public class NameMatcher implements GadletsMatcher {
 
@@ -13,11 +13,11 @@ public class NameMatcher implements GadletsMatcher {
 		this.name = name;
 	}
 
-	public Collection<GadletInstance> match(Collection<GadletInstance> gadletInstances) {
-		ArrayList<GadletInstance> list = new ArrayList<GadletInstance>(1);
-		for (GadletInstance gadletInstance : gadletInstances) {
-			if(gadletInstance.getGadletDefinition().getName().equals(name)) {
-				 list.add(gadletInstance);
+	public Collection<GadletDefinition> match(Collection<GadletDefinition> gadletDefinitions) {
+		ArrayList<GadletDefinition> list = new ArrayList<GadletDefinition>(1);
+		for (GadletDefinition gadletDefinition : gadletDefinitions) {
+			if(gadletDefinition.getName().equals(name)) {
+				 list.add(gadletDefinition);
 			}
 		}
 		return list;

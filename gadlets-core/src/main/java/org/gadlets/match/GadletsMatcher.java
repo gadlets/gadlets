@@ -2,10 +2,10 @@ package org.gadlets.match;
 
 import java.util.Collection;
 
-import org.gadlets.core.GadletInstance;
+import org.gadlets.core.GadletDefinition;
 
 public interface GadletsMatcher {
 
-	public Collection<GadletInstance> match(Collection<GadletInstance> gadletInstances);
+	public Collection<GadletDefinition> match(Collection<GadletDefinition> gadletDefinitions);
 
 }
