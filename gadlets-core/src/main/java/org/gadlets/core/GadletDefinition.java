@@ -2,8 +2,6 @@ package org.gadlets.core;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class GadletDefinition {
@@ -11,12 +9,15 @@ public class GadletDefinition {
 	private String name;
 	
 	private String path;
+	
+	private boolean isAbstract;
 
 	private Map<String, GadletParameter> name2parameter;
 
-	public GadletDefinition(String name, String path) {
+	public GadletDefinition(String name, String path, boolean isAbstract) {
 		this.path = path;
 		this.name = name; 
+		this.isAbstract = isAbstract;
 		this.name2parameter = new HashMap<String, GadletParameter>();
 	}
 
@@ -38,13 +39,7 @@ public class GadletDefinition {
 	}
 	
 	public boolean isAbstract() {
-		Collection<GadletParameter> parameters = getParameters();
-		for (GadletParameter gadletParameter : parameters) {
-			if(gadletParameter.isRequired() && gadletParameter.getValue() == null) {
-				return true;
-			}
-		}
-		return false;
+		return isAbstract;
 	}
 
 }

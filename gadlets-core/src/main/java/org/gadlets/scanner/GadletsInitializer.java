@@ -64,7 +64,8 @@ public class GadletsInitializer {
 				URL resourceURL = URLHelper.getResourceURL(url, resource);
 				try {
 					resourceURL.getContent();
-					GadletDefinition gadletDefinition = new GadletDefinition(gadlet.getName(), resourceURL.toExternalForm());
+					GadletDefinition gadletDefinition = 
+							new GadletDefinition(gadlet.getName(), resourceURL.toExternalForm(), gadlet.isAbstract());
 					List<Argument> argument = gadlet.getArgument();
 					for (Argument argument2 : argument) {
 						gadletDefinition.putParameter(argument2.getName(), argument2.getValue(), argument2.isRequired());
@@ -79,7 +80,8 @@ public class GadletsInitializer {
 				Gadlet unresolvedGadletDefinition = unresolved.get(extendsGadlet);
 				if(resolvedGadletDefinition != null) {
 					// Found defined gadlet to extends - we're all set
-					GadletDefinition extendedGadletDefinition = new GadletDefinition(gadlet.getName(), resolvedGadletDefinition.getPath());
+					GadletDefinition extendedGadletDefinition = 
+							new GadletDefinition(gadlet.getName(), resolvedGadletDefinition.getPath(), gadlet.isAbstract());
 					Collection<GadletParameter> parameters = resolvedGadletDefinition.getParameters();
 					for (GadletParameter gadletParameter : parameters) {
 						extendedGadletDefinition.putParameter(gadletParameter.getName(), gadletParameter.getValue(), gadletParameter.isRequired());
