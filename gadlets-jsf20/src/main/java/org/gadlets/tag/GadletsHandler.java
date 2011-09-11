@@ -11,7 +11,6 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributeException;
 import javax.faces.view.facelets.TagConfig;
 
-import com.sun.faces.facelets.el.VariableMapperWrapper;
 import com.sun.faces.facelets.tag.TagHandlerImpl;
 import com.sun.faces.util.FacesLogger;
 
@@ -44,12 +43,16 @@ public class GadletsHandler extends TagHandlerImpl implements IGadletsHandler {
 	 */
 	public void apply(FaceletContext ctx, UIComponent parent)
 			throws IOException {
-		String path = GadletsGenerator.generateGadletInclude(this);
+		VariableMapper orig = ctx.getVariableMapper();
+		VariableMapperWrapper variableMapperWrapper = new VariableMapperWrapper(orig);
+		ctx.setVariableMapper(variableMapperWrapper);
+		nextHandler.apply(ctx, parent);
+
+		String path = GadletsGenerator.generateGadletInclude(this, variableMapperWrapper);
 		if (path == null || path.length() == 0) {
 			return;
 		}
-		VariableMapper orig = ctx.getVariableMapper();
-		ctx.setVariableMapper(new VariableMapperWrapper(orig));
+		
 		try {
 			ctx.includeFacelet(parent, path);
 		} catch (IOException e) {

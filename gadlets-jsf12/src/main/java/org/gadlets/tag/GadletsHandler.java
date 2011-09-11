@@ -6,7 +6,6 @@ import javax.el.VariableMapper;
 import javax.faces.component.UIComponent;
 
 import com.sun.facelets.FaceletContext;
-import com.sun.facelets.el.VariableMapperWrapper;
 import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.TagAttributeException;
 import com.sun.facelets.tag.TagConfig;
@@ -25,7 +24,7 @@ public class GadletsHandler extends TagHandler implements IGadletsHandler {
 			return attribute.getValue();
 		}
 		return null;
-	}
+	}	
 	
 	/*
 	 * (non-Javadoc)
@@ -36,12 +35,16 @@ public class GadletsHandler extends TagHandler implements IGadletsHandler {
 	 */
 	public void apply(FaceletContext ctx, UIComponent parent)
 			throws IOException {
-		String path = GadletsGenerator.generateGadletInclude(this);
+        VariableMapper orig = ctx.getVariableMapper();
+        VariableMapperWrapper variableMapperWrapper = new VariableMapperWrapper(orig);
+        ctx.setVariableMapper(variableMapperWrapper);
+		nextHandler.apply(ctx, parent);
+
+		String path = GadletsGenerator.generateGadletInclude(this, variableMapperWrapper);
 		if (path == null || path.length() == 0) {
 			return;
 		}
-        VariableMapper orig = ctx.getVariableMapper();
-        ctx.setVariableMapper(new VariableMapperWrapper(orig));
+		
 		try {
 			ctx.includeFacelet(parent, path);
         } catch (IOException e) {

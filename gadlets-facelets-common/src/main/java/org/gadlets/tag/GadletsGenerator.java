@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.gadlets.core.GadletDefinition;
@@ -15,15 +17,15 @@ import org.gadlets.match.NameMatcher;
 
 public class GadletsGenerator {
 
-	public static String generateGadletInclude(IGadletsHandler gadletsHandler) throws IOException {
+	public static String generateGadletInclude(IGadletsHandler gadletsHandler, IGadletsVariableMapper variableMapper) throws IOException {
 		String name = gadletsHandler.getAttributeValue("name");
 		if(name != null) {
-			return generateGadletInclude(new NameMatcher(name));
+			return generateGadletInclude(new NameMatcher(name), variableMapper);
 		}
-		return generateGadletInclude(new MatchAllMatcher()); 
+		return generateGadletInclude(new MatchAllMatcher(), variableMapper); 
 	}
 	
-	public static String generateGadletInclude(GadletsMatcher gadletsMatcher) throws IOException {
+	public static String generateGadletInclude(GadletsMatcher gadletsMatcher, IGadletsVariableMapper variableMapper) throws IOException {
 		
 		String template = GadletsGenerator.class.getClassLoader()
 						.getResource("org/gadlets/tag/decorate.xhtml")
@@ -45,7 +47,9 @@ public class GadletsGenerator {
 			
 			Collection<GadletParameter> parameters = gadletDefinition.getParameters();
 			for (GadletParameter gadletParameter : parameters) {
-				fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + gadletParameter.getValue() + "\"/>");				
+				String contextValue = variableMapper.getValue(gadletParameter.getName());
+				String value = contextValue != null ? contextValue : gadletParameter.getValue();
+				fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + value + "\"/>");				
 			}
 
 			fw.write("    </ui:include>");
