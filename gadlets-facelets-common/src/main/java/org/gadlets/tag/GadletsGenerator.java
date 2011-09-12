@@ -14,6 +14,7 @@ import org.gadlets.core.GadletDefinition;
 import org.gadlets.core.GadletInstanceRepository;
 import org.gadlets.core.GadletParameter;
 import org.gadlets.match.GadletsMatcher;
+import org.gadlets.match.KeywordMatcher;
 import org.gadlets.match.MatchAllMatcher;
 import org.gadlets.match.NameMatcher;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class GadletsGenerator {
 		String name = gadletsHandler.getAttributeValue("name");
 		if(name != null) {
 			return generateGadletInclude(new NameMatcher(name), variableMapper);
+		}
+		String keyword = gadletsHandler.getAttributeValue("keyword");
+		if(keyword != null) {
+			return generateGadletInclude(new KeywordMatcher(keyword), variableMapper);
 		}
 		return generateGadletInclude(new MatchAllMatcher(), variableMapper); 
 	}

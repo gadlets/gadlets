@@ -70,6 +70,9 @@ public class GadletsInitializer {
 					for (Argument argument2 : argument) {
 						gadletDefinition.putParameter(argument2.getName(), argument2.getValue(), argument2.isRequired());
 					}
+					for (String keyword : gadlet.getKeyword()) {
+						gadletDefinition.putKeyword(keyword);
+					}
 					resolved.put(gadlet.getName(), gadletDefinition);
 				} catch (Exception e) {
 					logger.error("Failed to find Gadlet resource: " + resourceURL, e);
@@ -90,6 +93,15 @@ public class GadletsInitializer {
 					for (Argument argument : arguments) {
 						extendedGadletDefinition.putParameter(argument.getName(), argument.getValue(), argument.isRequired());
 					}
+					//
+					Collection<String> keywords = resolvedGadletDefinition.getKeywords();
+					for (String keyword : keywords) {
+						extendedGadletDefinition.putKeyword(keyword);
+					}
+					for (String keyword : gadlet.getKeyword()) {
+						extendedGadletDefinition.putKeyword(keyword);
+					}
+
 					resolved.put(gadlet.getName(), extendedGadletDefinition);
 				} else if(unresolvedGadletDefinition != null) {
 					// Right - we'll try later when it is resolved

@@ -9,6 +9,7 @@
 	</gadlet>
 	<gadlet name="twitter-lola">
 		<resource>twitter-lola.xhtml</resource>
+		<keyword>keyword-lola</keyword>
 	</gadlet>
 	<gadlet name="twitter-twitter">
 		<extends>twitter</extends>
