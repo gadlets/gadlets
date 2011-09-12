@@ -8,10 +8,6 @@
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 
-		<g:gadlets name="twitter-twitter">
-			<ui:param name="user" value="jboss" />
-		</g:gadlets>
-
 
 		<h1>
 			Single gadlet <i>twitter-lola</i>
@@ -22,6 +18,13 @@
 			Single gadlet <i>twitter-twitter</i>
 		</h1>
 		<g:gadlets name="twitter-twitter" />
+
+		<h1>
+			Single gadlet <i>twitter-lola</i> with override to <i>jboss</i>
+		</h1>
+		<g:gadlets name="twitter-twitter">
+			<ui:param name="user" value="jboss" />
+		</g:gadlets>
 
 		<h1>All gadlets</h1>
 		<g:gadlets />
