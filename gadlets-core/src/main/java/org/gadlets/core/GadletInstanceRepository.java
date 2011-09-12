@@ -1,6 +1,5 @@
 package org.gadlets.core;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,13 +16,7 @@ public class GadletInstanceRepository {
 	}
 
 	static public List<GadletDefinition> getInstances() {
-		ArrayList<GadletDefinition> instances = new ArrayList<GadletDefinition>(definitions.size());
-		for (GadletDefinition gadletDefinition : definitions) {
-			if(!gadletDefinition.isAbstract()) {
-				instances.add(gadletDefinition);
-			}
-		}
-		return instances;
+		return definitions;
 	}
 
 }

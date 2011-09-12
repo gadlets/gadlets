@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import org.gadlets.core.GadletDefinition;
 import org.gadlets.core.GadletInstanceRepository;
@@ -43,25 +47,21 @@ public class GadletsGenerator {
 		
 		Collection<GadletDefinition> instances = gadletsMatcher.match(GadletInstanceRepository.getInstances());
 		for (GadletDefinition gadletDefinition : instances) {
-			fw.write("<ui:decorate template=\""+ template +"\">");			
-			fw.write("  <ui:define name=\"gadlet\">");
-			fw.write("    <ui:include src=\""+ gadletDefinition.getPath() +"\">");
-			
-			Collection<GadletParameter> parameters = gadletDefinition.getParameters();
-			for (GadletParameter gadletParameter : parameters) {
-				String contextValue = variableMapper.getValue(gadletParameter.getName());
-				String value = contextValue != null ? contextValue : gadletParameter.getValue();
-				if(value == null && gadletParameter.isRequired()) {
-					// Missing required attribute
-					logger.warn("Missing value for required argument: " + gadletDefinition.getName() + "/" + gadletParameter.getName());
-				} else {
-					fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + value + "\"/>");
+			Map<String, String> resolvArguments = resolvArguments(gadletDefinition, variableMapper);
+			if(resolvArguments != null) {
+				fw.write("<ui:decorate template=\""+ template +"\">");			
+				fw.write("  <ui:define name=\"gadlet\">");
+				fw.write("    <ui:include src=\""+ gadletDefinition.getPath() +"\">");
+				
+				Set<Entry<String,String>> entrySet = resolvArguments.entrySet();
+				for (Entry<String, String> entry : entrySet) {
+					fw.write("    <ui:param name=\"" + entry.getKey() + "\" value=\"" + entry.getValue() + "\"/>");
 				}
+	
+				fw.write("    </ui:include>");
+				fw.write("  </ui:define>");
+				fw.write("</ui:decorate>");	
 			}
-
-			fw.write("    </ui:include>");
-			fw.write("  </ui:define>");
-			fw.write("</ui:decorate>");			
 		}
 		
 		fw.write("<br/> GEN END");
@@ -71,8 +71,27 @@ public class GadletsGenerator {
 		fw.close();
 		
 		return "file://" + file.getAbsolutePath();
-		
-		
-		
+	}
+	
+	private static Map<String, String> resolvArguments(GadletDefinition gadletDefinition, IGadletsVariableMapper variableMapper) {
+		Map<String, String> vmap = new HashMap<String, String>();
+		Collection<GadletParameter> parameters = gadletDefinition.getParameters();
+		for (GadletParameter gadletParameter : parameters) {
+			String contextValue = variableMapper.getValue(gadletParameter.getName());
+			String value = contextValue != null ? contextValue : gadletParameter.getValue();
+			vmap.put(gadletParameter.getName(), value);
+			// If this is abstract is it ok to skip this 
+			if(value == null && gadletParameter.isRequired() && gadletDefinition.isAbstract()) {
+				return null;
+			}
+			// If it is not abstract missing argument is an error 
+			if(value == null && gadletParameter.isRequired() && !gadletDefinition.isAbstract()) {
+				throw new RuntimeException("Missing value for required argument: " + gadletDefinition.getName() + "/" + gadletParameter.getName());
+			}			
+			if(value != null) {
+				vmap.put(gadletParameter.getName(), value);
+			}
+		}
+		return vmap;
 	}
 }
