@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import org.gadlets.core.GadletDefinition;
@@ -14,8 +12,12 @@ import org.gadlets.core.GadletParameter;
 import org.gadlets.match.GadletsMatcher;
 import org.gadlets.match.MatchAllMatcher;
 import org.gadlets.match.NameMatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GadletsGenerator {
+	
+	private static Logger logger = LoggerFactory.getLogger(GadletsGenerator.class);
 
 	public static String generateGadletInclude(IGadletsHandler gadletsHandler, IGadletsVariableMapper variableMapper) throws IOException {
 		String name = gadletsHandler.getAttributeValue("name");
@@ -49,7 +51,12 @@ public class GadletsGenerator {
 			for (GadletParameter gadletParameter : parameters) {
 				String contextValue = variableMapper.getValue(gadletParameter.getName());
 				String value = contextValue != null ? contextValue : gadletParameter.getValue();
-				fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + value + "\"/>");				
+				if(value == null && gadletParameter.isRequired()) {
+					// Missing required attribute
+					logger.warn("Missing value for required argument: " + gadletDefinition.getName() + "/" + gadletParameter.getName());
+				} else {
+					fw.write("    <ui:param name=\"" + gadletParameter.getName() + "\" value=\"" + value + "\"/>");
+				}
 			}
 
 			fw.write("    </ui:include>");
